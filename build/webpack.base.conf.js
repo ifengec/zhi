@@ -2,7 +2,7 @@ var path = require('path')
 var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
-
+var ExtractPlugin = require('extract-text-webpack-plugin')
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
@@ -21,6 +21,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
+      'src': path.resolve(__dirname, '../src'),
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
     }
@@ -55,7 +56,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loaders: ["style-loader", "css-loader", "sass-loader"]
+        loader:ExtractPlugin.extract('style-loader', 'css-loader!sass-loader')
       }
     ]
   }
