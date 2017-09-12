@@ -1,6 +1,6 @@
 // Import Vue
 import Vue from 'vue'
-
+import VueResource from 'vue-resource';
 // Import F7
 import Framework7 from 'framework7'
 
@@ -25,6 +25,7 @@ import Routes from './routes.js'
 import App from './app'
 // Init F7 Vue Plugin
 Vue.use(Framework7Vue)
+Vue.use(VueResource)
 
 // Init App
 new Vue({

@@ -18,7 +18,7 @@
                 </f7-navbar>
                 <!-- Pages -->
                 <f7-pages>
-                    <f7-page infinite-scroll>
+                    <f7-page infinite-scroll @infinite="scrollLoad">
                         <!-- Material Theme Navbar -->
                         <f7-navbar v-if="$theme.material">
                             <f7-nav-left>
@@ -43,13 +43,13 @@
                                           title="Dynamic Route"></f7-list-item>
                         </f7-list>
 
-                        <div class="page-content"  data-distance="150">
+
                             <div class="msg-list" v-if="media">
                                 <div class="msg-item" v-for="item in media">
                                     <mediaItem :media="item"></mediaItem>
                                 </div>
                             </div>
-                        </div>
+
                     </f7-page>
                 </f7-pages>
             </f7-view>
@@ -59,12 +59,17 @@
 
 <script type="text/ecmascript-6">
     import mediaItem from 'components/mediaItem.vue';
-    const url = 'http://localhost:63342/zhida/data/medialist.json';
+    const url = '/static/medialist.json';
     export default {
         name: 'Index',
         data() {
             return {
-                media: ''
+                media: '',
+                lastIndex:0,
+                myApp:new Framework7(),
+                loading:false,
+                maxItems:100,
+                itemsPerload:20
             }
         },
         created() {
@@ -75,38 +80,34 @@
                 url: url,
                 success: function (resp) {
 
-                    _this.media = resp.media.slice(0,9);
-                    _this.scrollLoad();
+                    _this.media = resp.media.slice(0,10);
                 },
                 error: function (xhr) {
                     console.log("Error on ajax call " + xhr);
                     window.f7.hideIndicator();
                 }
             });
-
         },
         methods: {
             scrollLoad(){
                 console.log('xxx');
+                let _this=this;
                 let myApp = new Framework7();
                 let $$ = Dom7;
                 // Loading flag
-                let loading = false;
+
                 // Last loaded index
-                let lastIndex = $$('.msg-list .msg-item').length;
-                // Max items to load
-                let maxItems = 60;
-                // Append items per load
-                let itemsPerLoad = 20;
+                _this.lastIndex = $$('.msg-list .msg-item').length;
+
                 // Attach 'infinite' event handler
                 $$('.infinite-scroll').on('infinite', function () {
                     // Exit, if loading in progress
-                    if (loading) return;
+                    if (_this.loading) return;
                     // Set loading flag
-                    loading = true;
+                    _this.loading = true;
                     // Emulate 1s loading
 
-                    if (lastIndex >= maxItems) {
+                    if (_this.lastIndex >= _this.maxItems) {
                         // Nothing more to load, detach infinite scroll events to prevent unnecessary loadings
                         myApp.detachInfiniteScroll($$('.infinite-scroll'));
                         // Remove preloader
@@ -118,20 +119,20 @@
                         url: url,
                         success: function (resp) {
                             console.log(resp);
-                            let media = resp.media.slice(lastIndex + 1,(lastIndex + itemsPerLoad)>maxItems?maxItems:(lastIndex + itemsPerLoad));
+                            let media = JSON.parse(resp.media);
                             console.log(media);
                             let html = '';
-                            for (let i = 0; i <= itemsPerLoad; i++) {
+                            $.each(media,function(i,val){
                                 html += '<div class="msg-item" v-if="media">' +
                                         '<div class="msg-inner">' +
-                                        '<div class="tit"><a class="tit-href" href="#">'+media[i].title+'</a></div>' +
+                                        '<div class="tit"><a class="tit-href" href="#">'+val.title+'</a></div>' +
                                         '<div class="user-info">' +
-                                        '<a class="a-666" href="#"><span class="name">'+media[i].author+'</span><span>'+media[i].description+'</span></a>' +
+                                        '<a class="a-666" href="#"><span class="name">'+val.author+'</span><span>'+val.description+'</span></a>' +
                                         '</div>' +
                                         '<div class="ting-box clearfix">' +
                                         '<div class="item-img dinline-l">' +
                                         '<div class="paddingT"></div><a href="#"></a>' +
-                                        '<img src="'+media[i].imgurl+'" class="img-head"></div>' +
+                                        '<img src="'+val.imgurl+'" class="img-head"></div>' +
                                         '<div class="item-audio dinline-l">' +
                                         '<div class="btn-ting">' +
                                         '<div class="btn-ting-txt"><span>¥</span><span class="price">1</span><span>听一下</span>' +
@@ -139,14 +140,20 @@
                                         '<div class="answer-info">' +
                                         '<span>答案价值 100元 </span><span>，400人听过</span><span>，200人觉得赞</span>' +
                                         ' </div></div></div>';
-                            }
+                            })
+
                             console.log(html);
                             $$('.msg-list').append(html);
-                            lastIndex = $$('.msg-list .msg-item').length;
+                            _this.lastIndex = $$('.msg-list .msg-item').length;
 
                         },
                         error: function (xhr) {
-                            console.log("Error on ajax call1111 " + xhr);
+                            console.log("Error on ajax call1111 ");
+                            console.log( xhr);
+                            setTimeout(function(){
+                                _this.loading=false;
+                            },3000);
+
                             window.f7.hideIndicator();
                         }
                     });
