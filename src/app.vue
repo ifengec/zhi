@@ -11,7 +11,7 @@
                     <f7-nav-left>
                         <f7-link icon="icon-bars" open-panel="left"></f7-link>
                     </f7-nav-left>
-                    <f7-nav-center sliding>Framework7</f7-nav-center>
+                    <f7-nav-center sliding>值答</f7-nav-center>
                     <f7-nav-right>
                         <f7-link icon="icon-bars" open-panel="right"></f7-link>
                     </f7-nav-right>
@@ -44,7 +44,7 @@
                         </f7-list>
                         <div class="msg-list" v-if="media">
                             <div class="msg-item" v-for="item in media">
-                                <mediaItem :media="item"></mediaItem>
+                                <mediaItem :media="item" :mediaId="item.id"></mediaItem>
                             </div>
                         </div>
                     </f7-page>
@@ -62,6 +62,7 @@
         data() {
             return {
                 media: '',
+                mediaId:'',
                 lastIndex: 0,
                 myApp: new Framework7(),
                 loading: false,
