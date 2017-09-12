@@ -4,8 +4,8 @@ export default [
       component: require('./pages/about.vue')
   },
   {
-      path: '/form/',
-      component: require('./pages/form.vue')
+      path: '/media/:mediaId/',
+      component: require('./pages/media.vue')
   },
   {
       path: '/dynamic-route/blog/:blogId/post/:postId/',

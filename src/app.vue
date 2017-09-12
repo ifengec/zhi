@@ -18,7 +18,7 @@
                 </f7-navbar>
                 <!-- Pages -->
                 <f7-pages>
-                    <f7-page infinite-scroll @infinite="scrollLoad">
+                    <f7-page infinite-scroll @infinite="getMedia">
                         <!-- Material Theme Navbar -->
                         <f7-navbar v-if="$theme.material">
                             <f7-nav-left>
@@ -42,14 +42,11 @@
                             <f7-list-item link="/dynamic-route/blog/45/post/125/?foo=bar#about"
                                           title="Dynamic Route"></f7-list-item>
                         </f7-list>
-
-
-                            <div class="msg-list" v-if="media">
-                                <div class="msg-item" v-for="item in media">
-                                    <mediaItem :media="item"></mediaItem>
-                                </div>
+                        <div class="msg-list" v-if="media">
+                            <div class="msg-item" v-for="item in media">
+                                <mediaItem :media="item"></mediaItem>
                             </div>
-
+                        </div>
                     </f7-page>
                 </f7-pages>
             </f7-view>
@@ -65,98 +62,74 @@
         data() {
             return {
                 media: '',
-                lastIndex:0,
-                myApp:new Framework7(),
-                loading:false,
-                maxItems:100,
-                itemsPerload:20
+                lastIndex: 0,
+                myApp: new Framework7(),
+                loading: false,
+                maxItems: 20,
+                itemsPerload: 20
             }
         },
         created() {
 
             let _this = this;
-            window.Dom7.ajax({
-                dataType: 'json',
-                url: url,
-                success: function (resp) {
 
-                    _this.media = resp.media.slice(0,10);
-                },
-                error: function (xhr) {
-                    console.log("Error on ajax call " + xhr);
-                    window.f7.hideIndicator();
-                }
+            _this.$http.get(url).then((resp) => {
+                console.log('http get');
+                _this.media = resp.body.media.slice(0, 10);
+            }, ()=> {
+                console.log('error');
             });
+
         },
         methods: {
-            scrollLoad(){
-                console.log('xxx');
-                let _this=this;
-                let myApp = new Framework7();
-                let $$ = Dom7;
-                // Loading flag
 
-                // Last loaded index
+            getMedia(){
+                let _this = this;
+
+                let $$ = Dom7;
+                if (_this.loading) return;
+
+                _this.loading = true;
                 _this.lastIndex = $$('.msg-list .msg-item').length;
 
-                // Attach 'infinite' event handler
-                $$('.infinite-scroll').on('infinite', function () {
-                    // Exit, if loading in progress
-                    if (_this.loading) return;
-                    // Set loading flag
-                    _this.loading = true;
-                    // Emulate 1s loading
+                if (_this.lastIndex >= _this.maxItems) {
 
-                    if (_this.lastIndex >= _this.maxItems) {
-                        // Nothing more to load, detach infinite scroll events to prevent unnecessary loadings
-                        myApp.detachInfiniteScroll($$('.infinite-scroll'));
-                        // Remove preloader
-                        $$('.infinite-scroll-preloader').remove();
-                        return;
+                    _this.myApp.detachInfiniteScroll($$('.infinite-scroll'));
+
+                    $$('.infinite-scroll-preloader').remove();
+                    return;
+                }
+                _this.$http.get(url).then((resp) => {
+                    console.log('http get');
+                    let media = resp.body.media;
+                    console.log(media);
+                    let html = '';
+                    for (let val of media) {
+                        html += '<div class="msg-item">' +
+                                '<div class="msg-inner">' +
+                                '<div class="tit"><a class="tit-href" href="/media/'+val.id+'/">' + val.title + '</a></div>' +
+                                '<div class="user-info">' +
+                                '<a class="a-666" href="#"><span class="name">' + val.author + '</span><span>' + val.description + '</span></a>' +
+                                '</div>' +
+                                '<div class="ting-box clearfix">' +
+                                '<div class="item-img dinline-l">' +
+                                '<div class="paddingT"></div><a href="#"></a>' +
+                                '<img src="' + val.imgurl + '" class="img-head"></div>' +
+                                '<div class="item-audio dinline-l">' +
+                                '<div class="btn-ting">' +
+                                '<div class="btn-ting-txt"><span>¥</span><span class="price">1</span><span>听一下</span>' +
+                                '</div> </div> </div> </div>' +
+                                '<div class="answer-info">' +
+                                '<span>答案价值 100元 </span><span>，400人听过</span><span>，200人觉得赞</span>' +
+                                ' </div></div></div>';
                     }
-                    window.Dom7.ajax({
-                        dataType: 'json',
-                        url: url,
-                        success: function (resp) {
-                            console.log(resp);
-                            let media = JSON.parse(resp.media);
-                            console.log(media);
-                            let html = '';
-                            $.each(media,function(i,val){
-                                html += '<div class="msg-item" v-if="media">' +
-                                        '<div class="msg-inner">' +
-                                        '<div class="tit"><a class="tit-href" href="#">'+val.title+'</a></div>' +
-                                        '<div class="user-info">' +
-                                        '<a class="a-666" href="#"><span class="name">'+val.author+'</span><span>'+val.description+'</span></a>' +
-                                        '</div>' +
-                                        '<div class="ting-box clearfix">' +
-                                        '<div class="item-img dinline-l">' +
-                                        '<div class="paddingT"></div><a href="#"></a>' +
-                                        '<img src="'+val.imgurl+'" class="img-head"></div>' +
-                                        '<div class="item-audio dinline-l">' +
-                                        '<div class="btn-ting">' +
-                                        '<div class="btn-ting-txt"><span>¥</span><span class="price">1</span><span>听一下</span>' +
-                                        '</div> </div> </div> </div>' +
-                                        '<div class="answer-info">' +
-                                        '<span>答案价值 100元 </span><span>，400人听过</span><span>，200人觉得赞</span>' +
-                                        ' </div></div></div>';
-                            })
-
-                            console.log(html);
-                            $$('.msg-list').append(html);
-                            _this.lastIndex = $$('.msg-list .msg-item').length;
-
-                        },
-                        error: function (xhr) {
-                            console.log("Error on ajax call1111 ");
-                            console.log( xhr);
-                            setTimeout(function(){
-                                _this.loading=false;
-                            },3000);
-
-                            window.f7.hideIndicator();
-                        }
-                    });
+                    $$('.msg-list').append(html);
+                    _this.lastIndex = $$('.msg-list .msg-item').length;
+                    _this.loading = false;
+                }, ()=> {
+                    setTimeout(function () {
+                        _this.loading = false;
+                    }, 3000);
                 });
             }
         },

@@ -1,6 +1,6 @@
 <template>
         <div class="msg-inner" v-if="media">
-            <div class="tit"><a class="tit-href" href="#">{{media.title}}</a></div>
+            <div class="tit"><a class="tit-href" href="/media/0/">{{media.title}}</a></div>
             <div class="user-info">
                 <a class="a-666" href="#"><span
                         class="name">{{media.author}}</span><span>{{media.description}}</span></a>
