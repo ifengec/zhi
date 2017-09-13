@@ -12,7 +12,11 @@ export default [
         component: require('./pages/dynamic-route.vue')
     },
     {
-        path: '/media/:mediaId/',
-        component: require('./pages/media.vue')
+        path: '/question/:questionId/',
+        component: require('./pages/question.vue')
+    },
+    {
+        path: '/user/:userId/',
+        component: require('./pages/user.vue')
     }
 ]

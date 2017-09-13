@@ -30,21 +30,10 @@
                             </f7-nav-right>
                         </f7-navbar>
                         <!-- Page Content -->
-                        <f7-block-title>Welcome to my App</f7-block-title>
-                        <f7-block inner>
-                            <p>Duis sed erat ac eros ultrices pharetra id ut tellus. Praesent rhoncus enim ornare ipsum
-                                aliquet ultricies. Pellentesque sodales erat quis elementum sagittis.</p>
-                        </f7-block>
-                        <f7-block-title>Navigation</f7-block-title>
-                        <f7-list>
-                            <f7-list-item link="/about/" title="About"></f7-list-item>
-                            <f7-list-item link="/form/" title="Form"></f7-list-item>
-                            <f7-list-item link="/dynamic-route/blog/45/post/125/?foo=bar#about"
-                                          title="Dynamic Route"></f7-list-item>
-                        </f7-list>
-                        <div class="msg-list" v-if="media">
-                            <div class="msg-item" v-for="item in media">
-                                <mediaItem :media="item" :mediaId="item.id"></mediaItem>
+
+                        <div class="question-list" v-if="questions">
+                            <div class="question-item" v-for="item in questions">
+                                <questionItem :question="item" :questionId="item.id" :userId="item.answererUserId"></questionItem>
                             </div>
                         </div>
                     </f7-page>
@@ -55,14 +44,14 @@
 </template>
 
 <script type="text/ecmascript-6">
-    import mediaItem from 'components/mediaItem.vue';
-    const url = '/static/medialist.json';
+    import questionItem from 'components/questionItem.vue';
+    const url = '/static/questionlist.json';
     export default {
         name: 'Index',
         data() {
             return {
-                media: '',
-                mediaId:'',
+                questions: '',
+                questionId:'',
                 lastIndex: 0,
                 myApp: new Framework7(),
                 loading: false,
@@ -73,10 +62,9 @@
         created() {
 
             let _this = this;
-
             _this.$http.get(url).then((resp) => {
                 console.log('http get');
-                _this.media = resp.body.media.slice(0, 10);
+                _this.questions = resp.body.questions.slice(0, 10);
             }, ()=> {
                 console.log('error');
             });
@@ -102,24 +90,26 @@
                 }
                 _this.$http.get(url).then((resp) => {
                     console.log('http get');
-                    let media = resp.body.media;
-                    console.log(media);
+                    let questions = resp.body.questions;
+                    console.log(questions);
                     let html = '';
-                    for (let val of media) {
-                        html += '<div class="msg-item">' +
-                                '<div class="msg-inner">' +
-                                '<div class="tit"><a class="tit-href" href="/media/'+val.id+'/">' + val.title + '</a></div>' +
+                    for (let val of questions) {
+                        html += '<div class="question-item">' +
+                                '<div class="question-inner">' +
+                                '<div class="tit"><a class="tit-href" href="/question/'+val.id+'/">' + val.title + '</a></div>' +
                                 '<div class="user-info">' +
-                                '<a class="a-666" href="#"><span class="name">' + val.author + '</span><span>' + val.description + '</span></a>' +
+                                '<a class="a-666" href="/user/'+val.answererUserId+'/"><span class="name">' + val.answerer + '</span><span>' + val.description + '</span></a>' +
                                 '</div>' +
                                 '<div class="ting-box clearfix">' +
-                                '<div class="item-img dinline-l">' +
+                                '<div class="answerer-avatar dinline-l">' +
                                 '<div class="paddingT"></div><a href="#"></a>' +
-                                '<img src="' + val.imgurl + '" class="img-head"></div>' +
+                                '<img src="' + val.answererAvatar + '" class="img-head"></div>' +
                                 '<div class="item-audio dinline-l">' +
                                 '<div class="btn-ting">' +
                                 '<div class="btn-ting-txt"><span>¥</span><span class="price">1</span><span>听一下</span>' +
-                                '</div> </div> </div> </div>' +
+                                '</div>' +
+                                '<a class="tit-href" href="/question/'+val.id+'/"></a>' +
+                                ' </div> </div> </div>' +
                                 '<div class="answer-info">' +
                                 '<span>答案价值 100元 </span><span>，400人听过</span><span>，200人觉得赞</span>' +
                                 ' </div></div></div>';
@@ -135,7 +125,7 @@
             }
         },
         components: {
-            mediaItem
+            questionItem
         }
     }
 
@@ -148,7 +138,6 @@
             color: #fff;
         }
     }
-
     @import "sass/style.scss";
 
 </style>

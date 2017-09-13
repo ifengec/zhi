@@ -1,0 +1,29 @@
+.ts-btn {
+  line-height: 0.95rem;
+  padding: 0 0.20rem;
+  font-size: 0.65rem;
+  background-color: #ce3d3a;
+  color: #ffffff;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  min-width: 2rem;
+  display: block;
+  text-align: center;
+}
+.btn-ting {
+  background: transparent url(../src/img/btn-ting-2.png) left center no-repeat;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  height: 45px;
+  width: 225px;
+  margin-left: 10px;
+  position: relative;
+  line-height: 45px;
+  color: #ffffff;
+  padding-left: 2.6rem;
+  @extend %boxSize;
+}
