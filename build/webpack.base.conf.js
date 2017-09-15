@@ -1,6 +1,7 @@
 var path = require('path')
 var utils = require('./utils')
 var config = require('../config')
+var webpack = require("webpack")
 var vueLoaderConfig = require('./vue-loader.conf')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 const extractSass = new ExtractTextPlugin({
@@ -30,6 +31,7 @@ module.exports = {
       'components': path.resolve(__dirname, '../src/components'),
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
+      'jquery': 'jquery'
     }
   },
   module: {
@@ -76,6 +78,10 @@ module.exports = {
   }
   ,
   plugins: [
-    extractSass
+    extractSass,
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery"
+    })
   ]
 }

@@ -79,7 +79,7 @@
                 if (_this.loading) return;
 
                 _this.loading = true;
-                _this.lastIndex = $$('.msg-list .msg-item').length;
+                _this.lastIndex = $$('.question-list .question-item').length;
 
                 if (_this.lastIndex >= _this.maxItems) {
 
@@ -114,8 +114,8 @@
                                 '<span>答案价值 100元 </span><span>，400人听过</span><span>，200人觉得赞</span>' +
                                 ' </div></div></div>';
                     }
-                    $$('.msg-list').append(html);
-                    _this.lastIndex = $$('.msg-list .msg-item').length;
+                    $$('.question-list').append(html);
+                    _this.lastIndex = $$('.question-list .question-item').length;
                     _this.loading = false;
                 }, ()=> {
                     setTimeout(function () {

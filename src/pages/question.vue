@@ -26,13 +26,13 @@
                     <div class="media-body">
                         <div class="btn-ting btn-audio"
                              data-to="http://51zhid.com/media/123.mp3" data-dur="200">
-                            <div class="yinbo">
+                            <div ref="yinbo" class="yinbo">
                                 <img src="../img/sound-S.png">
                                 <img src="../img/sound-M.png">
                                 <img src="../img/sound-L.png">
                                 <!--<img src="assets/img/sound-G.png">-->
                             </div>
-                            <div class="preloader">
+                            <div class="preloader" ref="loading">
                             </div>
                             <div class="btn-ting-txt"><span class="djs"></span></div>
                         </div>
@@ -55,11 +55,20 @@
     </f7-page>
 </template>
 <script type="text/ecmascript-6">
+    import jquery from 'jquery'
+    import '../wxAudio1.2.2.js'
     const url = '/static/question.json';
     export default {
         data(){
             return{
                 question:'',
+                time:{
+                    minute:'',
+                    second:''
+                },
+                timer:null,
+                dur:0,
+                url:''
             }
         },
         props: ["questionId"],
@@ -71,6 +80,13 @@
             }, ()=> {
                 console.log('error');
             });
+            $('.btn-audio').wxAudio();
+        },
+        methods:{
+
+        },
+        ready() {
+
         }
     };
 </script>
