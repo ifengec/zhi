@@ -5,15 +5,7 @@
  * update 20170309
  */
 
-;(function (factory) {
-    if (typeof define === "function" && define.amd) {
-        // AMD模式
-        define([ "jquery" ], factory);
-    } else {
-        // 全局模式
-        factory(jQuery);
-    }
-}(function ($) {
+
     var Audior = function (context, options) {
         //dom
         this.$btn = $(context);
@@ -37,6 +29,7 @@
         init: function () {
             var self = this;
             self.events('click');
+
             self.updateTime(self.dur);
         },
         events: function (e) {
@@ -60,8 +53,14 @@
                 }
 
                 $audio.attr('src', self.url);
-                $audio[0].play();
-                self.goTime();
+                $audio.on('canplay',function(){
+
+                    console.log("dur:");
+                    console.log(this.duration+'s');
+                    $audio[0].play();
+                    self.goTime();
+                });
+
             });
         },
         goTime: function () {
@@ -69,27 +68,23 @@
             var $audio = $('audio');
             console.log($(self.className));
             $(self.className + '.active').removeClass('active');
-            $(self.className).forEach(function (elm) {
-                var $this = $(elm);
-                if ($this.data('timer') != null && $this.data('timer') != '') {
-                    clearInterval($this.data('timer'));
-                    console.log($this.data('timer'));
-                }
-            });
 
+            if(self.timer != null){
+                clearInterval(self.timer);
+            }
             self.timer = setInterval(function () {
-                self.$btn.data('timer', self.timer);
-                console.log(self.timer);
 
+                console.log(self.timer +'timer');
 
                 var tim = Math.ceil($audio[0].currentTime);
                 var tim2 = self.dur - tim;
-                console.log(tim2);
+                console.log(tim2 +'s');
                 if (tim2 <= 0) {
                     clearInterval(self.timer);
                     self.updateTime(self.dur);
                     self.$btn.removeClass('active');
                     console.log('clear timer2 over');
+                    console.log(self.timer +'timer');
                     return false;
                 } else if (tim2 === self.dur) {
                     console.log('loading');
@@ -103,20 +98,6 @@
                 }
             }, 1000);
         }
-        //,
-
-        //进度条
-        //animateProgressBarPosition: function () {
-        //    var self = this,
-        //        percentage = (self.Audio.currentTime * 100 / self.Audio.duration) + '%';
-        //    if (percentage == "NaN%") {
-        //        percentage = 0 + '%';
-        //    }
-        //    var styles = {
-        //        "width": percentage
-        //    };
-        //    self.$audio_progress.css(styles);
-        //}
         ,
         // time update
         updateTime: function (sec) {
@@ -133,11 +114,12 @@
             return i;
         }
     };
+
     $.fn.wxAudio = function (options) {
 
         return this.each(function () {
             var audior = new Audior(this, options);
             audior.init();
         });
-    }
-}));
+    };
+

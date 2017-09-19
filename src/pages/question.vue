@@ -25,7 +25,7 @@
                     </div>
                     <div class="media-body">
                         <div class="btn-ting btn-audio"
-                             data-to="http://51zhid.com/media/123.mp3" data-dur="200">
+                             data-to="static/19.m4r" data-dur="19" ref="goaudio">
                             <div ref="yinbo" class="yinbo">
                                 <img src="../img/sound-S.png">
                                 <img src="../img/sound-M.png">
@@ -55,40 +55,36 @@
     </f7-page>
 </template>
 <script type="text/ecmascript-6">
-    import jquery from 'jquery'
-    import '../wxAudio1.2.2.js'
+    import $ from 'jquery'
+    import '../../static/wxAudio1.2.2.js'
     const url = '/static/question.json';
     export default {
         data(){
             return{
-                question:'',
-                time:{
-                    minute:'',
-                    second:''
-                },
-                timer:null,
-                dur:0,
-                url:''
+                question:''
             }
         },
         props: ["questionId"],
+        mounted(){
+            $(this.$refs.goaudio).wxAudio();
+        },
         created(){
             let _this = this;
             _this.$http.get(url,{id:_this.questionId}).then((resp) => {
-                console.log('http get');
+                console.log('http.get');
                 _this.question = resp.body.question;
             }, ()=> {
                 console.log('error');
             });
-            $('.btn-audio').wxAudio();
         },
         methods:{
 
-        },
-        ready() {
-
         }
     };
+    $(function(){
+        console.log('test');
+        console.log($('.btn-audio').length);
+    })
 </script>
 
 <style lang="scss">

@@ -16,6 +16,10 @@ body{
   float: left;
   display: inline-block;
 }
+.dinline-r {
+  float: right;
+  display: inline-block;
+}
 :after, :before {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -26,4 +30,7 @@ body{
 }
 .clearfix:after {
   clear: both;
+}
+a {
+  color: $font-33;
 }

@@ -18,7 +18,7 @@
                 </f7-navbar>
                 <!-- Pages -->
                 <f7-pages>
-                    <f7-page infinite-scroll @infinite="getMedia">
+                    <f7-page infinite-scroll @infinite="getQuestions">
                         <!-- Material Theme Navbar -->
                         <f7-navbar v-if="$theme.material">
                             <f7-nav-left>
@@ -37,6 +37,15 @@
                             </div>
                         </div>
                     </f7-page>
+                    <f7-toolbar>
+                        <f7-link href="http://www.spotify.com" class="link external">
+                            <i class="icon icon-spotify"></i>
+                            <p class="color-white">&nbsp;Spotify</p>
+                        </f7-link>
+                        <f7-link href="http://www.idangero.us/framework7" class="link external">
+                            <i class="icon icon-f7"></i>
+                        </f7-link>
+                    </f7-toolbar>
                 </f7-pages>
             </f7-view>
         </f7-views>
@@ -72,7 +81,7 @@
         },
         methods: {
 
-            getMedia(){
+            getQuestions(){
                 let _this = this;
 
                 let $$ = Dom7;

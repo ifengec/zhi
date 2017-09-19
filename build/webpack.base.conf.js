@@ -79,9 +79,12 @@ module.exports = {
   ,
   plugins: [
     extractSass,
+    new webpack.optimize.CommonsChunkPlugin('common.js'),
     new webpack.ProvidePlugin({
       $: "jquery",
-      jQuery: "jquery"
+      jQuery: "jquery",
+      jquery: "jquery",
+      "window.jQuery": "jquery"
     })
   ]
 }
