@@ -30,8 +30,7 @@ module.exports = {
       'src': path.resolve(__dirname, '../src'),
       'components': path.resolve(__dirname, '../src/components'),
       'vue$': 'vue/dist/vue.esm.js',
-      '@': resolve('src'),
-      'jquery': 'jquery'
+      '@': resolve('src')
     }
   },
   module: {
@@ -79,12 +78,9 @@ module.exports = {
   ,
   plugins: [
     extractSass,
-    new webpack.optimize.CommonsChunkPlugin('common.js'),
     new webpack.ProvidePlugin({
       $: "jquery",
-      jQuery: "jquery",
-      jquery: "jquery",
-      "window.jQuery": "jquery"
+      jQuery: "jquery"
     })
   ]
 }
