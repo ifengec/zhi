@@ -56,17 +56,20 @@
 </template>
 <script type="text/ecmascript-6">
     import $ from 'jquery'
-    import '../../static/wxAudio1.2.2.js'
+    import Audior from '../../static/wxAudio1.2.2.js'
     const url = '/static/question.json';
     export default {
         data(){
             return{
-                question:''
+                question:'',
+                audior:''
             }
         },
         props: ["questionId"],
         mounted(){
-            $(this.$refs.goaudio).wxAudio();
+            let _this = this;
+            _this.audior = new Audior(this.$refs.goaudio, {});
+            _this.audior.init();
         },
         created(){
             let _this = this;
@@ -78,13 +81,12 @@
             });
         },
         methods:{
-
+        },
+        beforeDestroy(){
+            let _this = this;
+            _this.audior.clearTime();
         }
     };
-    $(function(){
-        console.log('test');
-        console.log($('.btn-audio').length);
-    })
 </script>
 
 <style lang="scss">
