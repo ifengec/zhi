@@ -1,8 +1,6 @@
 <template>
     <!-- App -->
     <div id="app">
-        <!-- Statusbar -->
-        <f7-statusbar></f7-statusbar>
         <!-- Main Views -->
         <f7-views>
             <f7-view id="main-view" navbar-through :dynamic-navbar="true" main>
@@ -33,7 +31,7 @@
 
                         <div class="question-list" v-if="questions">
                             <div class="question-item" v-for="item in questions">
-                                <questionItem :question="item" :questionId="item.id" :userId="item.answererUserId"></questionItem>
+                                <questionItem :question="item" :questionId="item.id" :done="item.done" :userId="item.answererUserId"></questionItem>
                             </div>
                         </div>
                     </f7-page>

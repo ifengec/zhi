@@ -27,6 +27,10 @@ import App from './app'
 Vue.use(Framework7Vue)
 Vue.use(VueResource)
 
+//modal
+import VModal from 'vue-js-modal'
+Vue.use(VModal)
+
 // Init App
 new Vue({
   el: '#app',

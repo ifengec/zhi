@@ -1,0 +1,161 @@
+.m4u{
+  position: absolute;
+  top:0;
+  left:0;
+  right: 0;
+  bottom:0;
+  z-index: 11555;
+  display: none;
+
+}
+.m4u-bg{
+  position: absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background-color: rgba(0,0,0,0.4);
+  overflow: hidden;
+  display: none;
+
+}
+.m4u-fade{
+  opacity: 0;
+  -webkit-transition: all 0.35s;
+  -moz-transition: all 0.35s;
+  -ms-transition: all 0.35s;
+  -o-transition: all 0.35s;
+  transition: all 0.35s;
+  -webkit-transform: scale(1.85);
+  -moz-transform: scale(1.85);
+  -ms-transform: scale(1.85);
+  -o-transform: scale(1.85);
+  transform: scale(1.85);
+}
+.m4u-dialog{
+  position: absolute;
+  width: 90%;
+  top:30%;
+  left: 50%;
+  margin-left: -45%;
+  background-color: #ffffff;
+  -webkit-border-radius: 0.2rem;
+  -moz-border-radius: 0.2rem;
+  border-radius: 0.2rem;;
+  padding: 0.75rem;
+  display: none;
+  overflow: hidden;
+  @extend %boxSize;
+
+}
+.m4u-head{
+  padding:0.85rem;
+  @extend %boxSize;}
+.m4u-title{
+  font-size: 0.75rem;
+  padding-top: 1rem;
+}
+.m4u-close{
+  width: 0.8rem;
+  height: 0.8rem;
+  overflow: hidden;
+}
+
+
+.m4u-fade.in{
+  opacity:1;
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transform: scale(1);
+}
+.m4u-fade.out,.m4u-fade.in.out{
+  opacity:0;
+  -webkit-transform: scale(0.7);
+  -moz-transform: scale(0.7);
+  -ms-transform: scale(0.7);
+  -o-transform: scale(0.7);
+  transform: scale(0.7);
+}
+.m4u-close:hover{
+  background-color: #eeeeee;
+
+}
+
+.m4u.m4u-all .m4u-dialog{
+  width: 100%;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  margin-left: 0;
+  -webkit-border-radius:0;
+  -moz-border-radius:0;
+  border-radius:0;
+  padding:0;
+}
+.m4u.m4u-all .m4u-head{
+  height: 40%;
+}
+.m4u.m4u-all .m4u-body{
+  height: 40%;
+}
+.m4u.m4u-all .m4u-footer{
+  height:20%;
+  min-height: 2rem;
+}
+.m4u.m4u-all .m4u-footer .close-hd-box{
+  height: 100%;
+}
+.m4u.m4u-txt .m4u-head{
+  height:0;
+  padding:0;
+}
+.m4u.m4u-txt .m4u-body{
+  height:100%;
+  padding: 0 5%;
+  min-height: 15rem;
+}
+.m4u-txt .m4u-title{
+  padding:0.85rem 0 0;
+}
+.m4u-vh-height{
+  height: 5vh;
+  -webkit-transition: all 0.35s;
+  -moz-transition: all 0.35s;
+  -ms-transition: all 0.35s;
+  -o-transition: all 0.35s;
+  transition: all 0.35s;
+}
+.m4u-txt-box {
+  font-size: 0.9rem;
+  color: #333;
+  height: 2.75rem;
+  overflow: hidden;
+  position: relative;
+  p {
+    color: #999;
+    font-size: 0.7rem;
+    margin: 0;
+    line-height: 1.5;
+  }
+}
+.timeBox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  opacity: 1;
+}
+
+.ly-txt2, .ly-txt3, .ly-txt4 {
+  position: absolute;
+  top: 1.5rem;
+  left: 0;
+  right: 0;
+  opacity: 1;
+}
+.btn-luyin-box {
+  margin-top: 2.15rem;
+}

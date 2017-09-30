@@ -6,7 +6,7 @@
             <div class="question-detail">
                 <div class="head">
                     <div class="img-head"><a :href="'/user/'+question.askerUserId+'/'"><img :src="question.askerAvatar"></a></div>
-                    <div class="name"><a href="#">{{question.asker}} 的提问</a></div>
+                    <div class="name"><a href="#">{{question.asker}} 1111111的提问</a></div>
                     <div class="hd-if">已回答</div>
                     <div class="price">¥100</div>
                 </div>
@@ -56,6 +56,7 @@
 </template>
 <script type="text/ecmascript-6">
     import $ from 'jquery'
+
     import Audior from '../../static/wxAudio1.2.2.js'
     const url = '/static/question.json';
     export default {
@@ -68,8 +69,9 @@
         props: ["questionId"],
         mounted(){
             let _this = this;
-            _this.audior = new Audior(this.$refs.goaudio, {});
+            _this.audior = new Audior(_this.$refs.goaudio, {});
             _this.audior.init();
+            //$(_this.$refs.goaudio).wxAudio('init');
         },
         created(){
             let _this = this;
@@ -85,6 +87,7 @@
         beforeDestroy(){
             let _this = this;
             _this.audior.clearTime();
+            //$(_this.$refs.goaudio).wxAudio('cleartimer');
         }
     };
 </script>

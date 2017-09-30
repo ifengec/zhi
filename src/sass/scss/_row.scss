@@ -6,3 +6,18 @@
 .col{
   @extend %col
 }
+.col-50 {
+  display: inline-block;
+  float: left;
+  width: 50%;
+  position: relative;
+  @extend %boxSize;
+}
+.col-33 {
+  position: relative;
+  width: 33.3333%;
+  display: inline-block;
+  float: left;
+  min-height: 1px;
+  @extend %boxSize;
+}

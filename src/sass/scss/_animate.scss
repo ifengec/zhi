@@ -1,0 +1,67 @@
+%animate{
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+.txt1-animate-leave-active {
+  @extend %animate;
+  -webkit-animation-name: fadeOutUp;
+  animation-name: fadeOutUp;
+}
+.txt2-animate-enter-active{
+  @extend %animate;
+  -webkit-animation-name: fadeInUp;
+  animation-name: fadeInUp;
+}
+.txt2-animate-leave-active{
+  @extend %animate;
+  -webkit-animation-name: fadeOutDown;
+  animation-name: fadeOutDown;
+}
+.time-animate-enter-active{
+  @extend %animate;
+  -webkit-animation-name: fadeInDown;
+  animation-name: fadeInDown;
+}
+.time-animate-leave-active{
+  @extend %animate;
+  -webkit-animation-name: fadeOutUp;
+  animation-name: fadeOutUp;
+}
+
+.ly-btn-leave-active{
+  @extend %animate;
+  -webkit-animation-name: fadeOut;
+  animation-name: fadeOut;
+}
+.lying-btn-leave-active{
+  @extend %animate;
+  -webkit-animation-name: fadeOut;
+  animation-name: fadeOut;
+}
+.lying-btn-enter-active{
+  @extend %animate;
+  -webkit-animation-name: fadeInUp;
+  animation-name: fadeInUp;
+}
+.play-btn-leave-active{
+  @extend %animate;
+  -webkit-animation-name: fadeOutDown;
+  animation-name: fadeOutDown;
+}
+.play-btn-enter-active{
+  @extend %animate;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+.sub-btn-enter-active{
+  @extend %animate;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+.sub-btn-leave-active{
+  @extend %animate;
+  -webkit-animation-name: fadeOut;
+  animation-name: fadeOut;
+}

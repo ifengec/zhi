@@ -4,7 +4,7 @@
  * 将timer的id放在元素的data-timer里面,以便跨实例清除
  * update 20170309
  */
-;(function ($, window, document, undefined) {
+
     var Audior = function (context, options) {
         //dom
         this.$btn = $(context);
@@ -19,15 +19,16 @@
 
         //属性
         this.timer = null;
-        this.settings = $.extend({}, this.default, options);
+        this.settings = $.extend({}, this.default, typeof options == 'object' && options);
         //执行初始化
         //this.init();
     };
 
     Audior.prototype = {
         init: function () {
+
             var self = this;
-            self.events('tap');
+            self.events('click');
             self.updateTime(self.dur);
         },
         events: function (e) {
@@ -60,13 +61,7 @@
             var $audio = $('audio');
             console.log($(self.className));
             $(self.className + '.active').removeClass('active');
-            $(self.className).forEach(function (elm) {
-                var $this = $(elm);
-                if ($this.data('timer') != null && $this.data('timer') != '') {
-                    clearInterval($this.data('timer'));
-                    console.log($this.data('timer'));
-                }
-            });
+
 
             self.timer = setInterval(function () {
                 self.$btn.data('timer', self.timer);
@@ -122,16 +117,17 @@
                 i = "0" + i;
             }
             return i;
+        },
+        cleartimer:function(){
+            clearInterval(this.timer)
         }
     };
     $.fn.wxAudio = function (options) {
 
         return this.each(function () {
             var audior = new Audior(this, options);
-            audior.init();
+            if(typeof options==='string'){
+                audior[options]();
+            }
         });
-    }
-})(Zepto, window, document);
-$(function () {
-    $('.btn-audio').wxAudio();
-});
+    };

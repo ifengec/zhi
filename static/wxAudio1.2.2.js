@@ -118,14 +118,17 @@ Audior.prototype = {
         clearInterval(this.timer);
     }
 };
-//兼容模块
+//兼容模块,似乎此例中commonJs和amd/cmd都可以
+//commonJs规范
 if (typeof module !== 'undefined' && typeof exports === 'object') {
     module.exports = Audior;
+
 } else if (typeof define === 'function' && (define.amd || define.cmd)) {
+    //amd cmd 规范
     define(function () {
         return Audior;
-    })
+    });
 } else {
     window.Audior = Audior;
-}
 
+}

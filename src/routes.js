@@ -12,8 +12,8 @@ export default [
         component: require('./pages/dynamic-route.vue')
     },
     {
-        path: '/question/:questionId/',
-        component: require('./pages/question.vue')
+        path: '/question/:questionId/done/:done',
+        component: require('./pages/question-detail.vue')
     },
     {
         path: '/user/:userId/',

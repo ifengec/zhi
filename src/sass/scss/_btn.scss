@@ -12,7 +12,7 @@
   text-align: center;
 }
 .btn-ting {
-  background: transparent url(../src/img/btn-ting-2.png) left center no-repeat;
+  background: transparent url(../src/img/btn-ting.png) left center no-repeat;
   background-size: cover;
   -webkit-background-size: cover;
   -webkit-border-radius: 4px;
@@ -42,4 +42,99 @@
   border: 1px solid #999;
   border-radius: 0.2rem;
   display: inline-block;
+}
+
+.btns {
+  color: #666;
+  background-color: #EEE;
+  border-color: #EEE;
+  font-weight: 300;
+  font-size: 0.75rem;
+  text-decoration: none;
+  text-align: center;
+  line-height: 1.5rem;
+  height: 1.5rem;
+  padding: 0 0.85rem;
+  margin: 0;
+  display: inline-block;
+  appearance: none;
+  cursor: pointer;
+  border: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition-property: all;
+  transition-property: all;
+  -webkit-transition-duration: .3s;
+  transition-duration: .3s;
+}
+.btns-red {
+  color: #ffffff;
+  background-color: #ce3d3a;
+}
+.btns-red-o {
+  color: #ce3d3a;
+  border: 1px solid #ce3d3a;
+  -webkit-border-radius: 0.2rem;
+  -moz-border-radius: 0.2rem;
+  border-radius: 0.2rem;
+  background-color: #ffffff;
+}
+
+
+.btn-relu, .btn-fasong {
+  display: block;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  /* width: 2.5rem; */
+  /* height: 2.5rem; */
+  line-height: 2.5rem;
+  margin: 0.875rem auto 1rem;
+  /* background-color: #efc1c0; */
+  font-size: 0.65rem;
+  color: #ffffff;
+  -webkit-transition: all 0.35s;
+  -moz-transition: all 0.35s;
+  -ms-transition: all 0.35s;
+  -o-transition: all 0.35s;
+  transition: all 0.35s;
+}
+
+.btn-relu {
+  color: #999999;
+}
+.btn-fasong {
+  color: #70ba0e;
+  text-decoration: underline;
+}
+.btn-luyin, .btn-lying ,.btn-play{
+  display: block;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  width: 3.8rem;
+  height: 3.8rem;
+  background-color: #ffffff;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-align: center;
+  -webkit-transition: all 0.85s;
+  -moz-transition: all 0.85s;
+  -ms-transition: all 0.85s;
+  -o-transition: all 0.85s;
+  transition: all 0.85s;
+}
+.icon-lying {
+  background-image: url(../src/img/icon-lying.png);
+}
+.icon-ly {
+  background-image: url(../src/img/icon-ly.png);
+}
+.icon-play{
+  background-image: url(../src/img/icon-ly-play.png);
 }

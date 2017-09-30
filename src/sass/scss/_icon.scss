@@ -8,3 +8,28 @@
   display: inline-block;
   vertical-align: middle;
 }
+.icon-close-x {
+  background: transparent url(../src/img/icon-close-x.png) center no-repeat;
+  -webkit-background-size: contain;
+  background-size: contain;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.icon-ly, .icon-lying ,.icon-play{
+  display: block;
+  width: 3.75rem;
+  height: 3.75rem;
+  background: transparent no-repeat center;
+  -webkit-background-size: contain;
+  background-size: contain;
+  -webkit-transition: all 0.85s;
+  -moz-transition: all 0.85s;
+  -ms-transition: all 0.85s;
+  -o-transition: all 0.85s;
+  transition: all 0.85s;
+  margin:0 auto;
+}
+.icon-ly {
+  background-image: url(../src/img/icon-ly.png);
+}
