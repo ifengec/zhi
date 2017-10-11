@@ -150,45 +150,52 @@
                                     </div>
                                 </transition>
                                 <transition name="time-animate">
-                                    <div v-if="timeshow" class="timeBox"><span class="minute">0</span>:<span
-                                            class="second">00</span>
+                                    <div v-if="timeshow" class="timeBox"><span
+                                            class="minute">{{time.minute}}</span>:<span
+                                            class="second">{{time.second}}</span>
                                     </div>
                                 </transition>
                                 <transition name="txt2-animate">
                                     <div v-if="txt2show" class="ly-txt2">
-                                        <p>录音中...轻按下方按钮结束录音</p>
+                                        <p>{{lyTxt2}}</p>
                                     </div>
                                 </transition>
                                 <transition name="txt3-animate">
                                     <div v-if="txt3show" class="ly-txt3">
-                                        <p>发送前，轻按下方按钮试听录音</p>
+                                        <p>{{lyTxt3}}</p>
                                     </div>
                                 </transition>
                                 <transition name="txt4-animate">
                                     <div v-if="txt4show" class="ly-txt4">
-                                        <p>试听中...轻按下方按钮停止播放</p>
+                                        <p>{{lyTxt4}}</p>
                                     </div>
                                 </transition>
                             </div>
                             <div class="btn-luyin-box text-center clearfix">
                                 <div class="col-33">
                                     <transition name="sub-btn">
-                                        <a v-if="subBtnshow" class="btn-relu btn-ci-action">重录</a>
-                                    </transition></div>
+                                        <a v-if="subBtnshow" class="btn-relu btn-ci-action"
+                                           @click="reRecordAction">重录</a>
+                                    </transition>
+                                </div>
                                 <div class="col-33">
                                     <div class="paddingTop"></div>
                                     <transition name="ly-btn">
                                         <a v-if="lyBtnshow" class="btn-luyin" @click="lyBtnAction"><i
                                                 class="icon-ly"></i></a></transition>
                                     <transition name="lying-btn">
-                                        <a v-if="lyingBtnshow" class="btn-lying" @click="lyingBtnAction"><i class="icon-lying"></i></a>
+                                        <a v-if="lyingBtnshow" class="btn-lying" @click="lyingBtnAction"><i
+                                                class="icon-lying"></i></a>
                                     </transition>
                                     <transition name="play-btn">
-                                        <a v-if="playBtnshow" class="btn-play" @click="playBtnAction"><i class="icon-play"></i></a>
+                                        <a v-if="playBtnshow" class="btn-play" @click="playBtnAction"><i
+                                                class="icon-play"></i></a>
                                     </transition>
                                 </div>
                                 <div class="col-33">
-                                    <transition name="sub-btn"><a v-if="subBtnshow" class="btn-fasong btn-ci-action">确认发送</a></transition></div>
+                                    <transition name="sub-btn"><a v-if="subBtnshow" class="btn-fasong btn-ci-action">确认发送</a>
+                                    </transition>
+                                </div>
                             </div>
                         </div>
                         <div class="m4u-footer">
@@ -219,6 +226,9 @@
                     t1: '录音最长时间为60秒',
                     t2: '请点击下方录音键开始录音'
                 },
+                lyTxt2:'录音中...轻按下方按钮结束录音',
+                lyTxt3:'发送前，轻按下方按钮试听录音',
+                lyTxt4:'试听中...轻按下方按钮停止播放',
                 m4u: '',
                 txt1show: true,
                 timeshow: false,
@@ -229,6 +239,17 @@
                 lyingBtnshow: false,
                 playBtnshow: false,
                 subBtnshow: false,
+                timers: {
+                    t1: null
+                },
+                time: {
+                    second: '00',
+                    minute: '00',
+                    max: 60,
+                    recordTime: 0,
+                    runTime: null,
+                    luyin: true
+                }
             }
         },
         props: ["questionId", "done"],
@@ -282,32 +303,50 @@
                 m4u.hide();
                 setTimeout(_this.resetTxt, 500)
 
-            }, timego(max){
-                let date = new Date(), time;
-                let intTime = date.getTime() / 1000;
-                timeFormat(0);
-                timer = setInterval(function () {
+            },
+            timego(sec){
+                let _this = this;
+                let date = new Date();
+                let initTime = date.getTime() / 1000;
+                _this.timeFormate(0);
+                _this.timers.t1 = setInterval(function () {
                     let date2 = new Date();
-                    time = date2.getTime() / 1000 - intTime;
-                    time = Math.ceil(time);
-                    console.log(time);
-                    if (time >= max) {
-                        time = max;
-                        timeFormat(time);
+                    _this.time.runTime = Math.ceil(date2.getTime() / 1000 - initTime);
+                    console.log(_this.time.runTime);
+                    if (_this.time.runTime >= sec) {
+                        _this.time.runTime = sec;
+                        _this.playBtnshow = true;
+                        _this.lyingBtnshow = false;
+                        _this.subBtnshow = true;
+                        _this.time.recordTime = _this.time.runTime;
+                        _this.timeFormate(_this.time.runTime);
+                        clearInterval(_this.timers.t1);
 
-                        sec2 = time;
-
-                        $lying.addClass('play').removeClass('playing');
-                        $ciAction.fadein();
-                        $txt2.removeClass('animated fadeInUp');
-                        $txt4.removeClass('animated fadeInUp');
-                        $txt3.addClass('animated fadeInDown');
-                        clearInterval(timer);
+                        if (_this.time.luyin) {
+                            _this.time.luyin = false;
+                            _this.txt2show = false;
+                        } else {
+                            _this.txt4show = false
+                        }
+                        _this.txt3show = true;
+                        console.log('clear');
                     } else {
-                        timeFormat(time);
-                        sec = time;
+                        _this.timeFormate(_this.time.runTime);
                     }
                 }, 100)
+            },
+            timeFormate(sec){
+                let _this = this;
+
+                _this.time.minute = _this.numFormate(Math.floor(sec / 60));
+                _this.time.second = _this.numFormate(Math.floor(sec) - (_this.time.minute * 60));
+
+            },
+            numFormate(i){
+                if (i <= 9) {
+                    i = "0" + i;
+                }
+                return i;
             },
             lyBtnAction(){
                 let _this = this;
@@ -317,23 +356,55 @@
                 _this.lyBtnshow = false;
                 _this.lyingBtnshow = true;
 
+                _this.timego(_this.time.max);
+
+
             },
             lyingBtnAction(){
-                let _this=this;
+                let _this = this;
                 _this.lyingBtnshow = false;
                 _this.playBtnshow = true;
                 _this.subBtnshow = true;
 
+                clearInterval(_this.timers.t1)
+                if (_this.time.luyin) {
+                    _this.goRecord();
+                    _this.txt2show = false;
+                    _this.txt3show = true;
+                    _this.time.luyin = false;
+                    _this.time.recordTime = _this.time.runTime;
+                    console.log(_this.time.recordTime);
+                } else {
+                    _this.txt3show = true;
+                    _this.txt4show = false;
+                    _this.txt2show = false;
+                }
+
             },
             playBtnAction(){
-                let _this=this;
+                let _this = this;
                 _this.playBtnshow = false;
                 _this.lyingBtnshow = true;
                 _this.subBtnshow = false;
+                _this.txt3show = false;
+                _this.txt4show = true;
+                _this.timego(_this.time.recordTime);
+                _this.playRecorder();
+
+            },
+            reRecordAction(){//重录按钮
+                let _this=this;
+                _this.resetTxt();
+            },
+            goRecord(){//录音
+
+            },
+            playRecorder(){//播放录音
 
             },
             resetTxt(){
                 let _this = this;
+                clearInterval(_this.timers.t1);
                 _this.txt1show = true;
                 _this.txt2show = false;
                 _this.txt3show = false;
@@ -343,7 +414,17 @@
                 _this.lyingBtnshow = false;
                 _this.playBtnshow = false;
                 _this.subBtnshow = false;
-
+                _this.timers = {
+                    t1: null
+                };
+                _this.time = {
+                    second: '00',
+                    minute: '00',
+                    max: 60,
+                    recordTime: 0,
+                    runTime: null,
+                    luyin: true
+                }
             }
         },
         beforeDestroy(){

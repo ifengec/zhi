@@ -4,6 +4,7 @@
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
 }
+
 .txt1-animate-leave-active {
   @extend %animate;
   -webkit-animation-name: fadeOutUp;
@@ -15,6 +16,26 @@
   animation-name: fadeInUp;
 }
 .txt2-animate-leave-active{
+  @extend %animate;
+  -webkit-animation-name: fadeOutDown;
+  animation-name: fadeOutDown;
+}
+.txt3-animate-enter-active{
+  @extend %animate;
+  -webkit-animation-name: fadeInUp;
+  animation-name: fadeInUp;
+}
+.txt3-animate-leave-active{
+  @extend %animate;
+  -webkit-animation-name: fadeOutDown;
+  animation-name: fadeOutDown;
+}
+.txt4-animate-enter-active{
+  @extend %animate;
+  -webkit-animation-name: fadeInUp;
+  animation-name: fadeInUp;
+}
+.txt4-animate-leave-active{
   @extend %animate;
   -webkit-animation-name: fadeOutDown;
   animation-name: fadeOutDown;
@@ -52,16 +73,16 @@
 }
 .play-btn-enter-active{
   @extend %animate;
-  -webkit-animation-name: fadeIn;
-  animation-name: fadeIn;
+  -webkit-animation-name: fadeInUp;
+  animation-name: fadeInUp;
 }
 .sub-btn-enter-active{
   @extend %animate;
-  -webkit-animation-name: fadeIn;
-  animation-name: fadeIn;
+  -webkit-animation-name: fadeInDown;
+  animation-name: fadeInDown;
 }
 .sub-btn-leave-active{
   @extend %animate;
-  -webkit-animation-name: fadeOut;
-  animation-name: fadeOut;
+  -webkit-animation-name: fadeOutUp;
+  animation-name: fadeOutUp;
 }

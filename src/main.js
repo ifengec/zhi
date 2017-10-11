@@ -15,6 +15,16 @@ import Framework7Theme from 'framework7/dist/css/framework7.material.min.css'
 import Framework7ThemeColors from 'framework7/dist/css/framework7.material.colors.min.css'
 */
 
+
+
+// add cordova.js only if serving the app through file://
+if (window.location.protocol === 'file:' || window.location.port === '3000') {
+  var cordovaScript = document.createElement('script')
+  cordovaScript.setAttribute('type', 'text/javascript')
+  cordovaScript.setAttribute('src', 'cordova.js')
+  document.body.appendChild(cordovaScript)
+}
+
 // Import App Custom Styles
 import AppStyles from './css/app.css'
 
@@ -27,9 +37,6 @@ import App from './app'
 Vue.use(Framework7Vue)
 Vue.use(VueResource)
 
-//modal
-import VModal from 'vue-js-modal'
-Vue.use(VModal)
 
 // Init App
 new Vue({
