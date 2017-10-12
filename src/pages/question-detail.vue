@@ -214,7 +214,7 @@
 
     import Audior from '../../static/wxAudio1.2.2.js'
     import M4u from '../../static/js/m4u.js'
-    const url = '/static/question.json';
+    const url = '../../static/question.json';
 
     export default {
 
@@ -249,7 +249,8 @@
                     recordTime: 0,
                     runTime: null,
                     luyin: true
-                }
+                },
+                myMedia:null
             }
         },
         props: ["questionId", "done"],
@@ -258,6 +259,11 @@
             let _this = this;
             _this.audior = new Audior(_this.$refs.goaudio, {});
             _this.audior.init();
+
+            document.addEventListener("deviceready", onDeviceReady, false);
+            function onDeviceReady() {
+                window.alert("media is ready now");
+            }
         },
         created(){
             let _this = this;
@@ -311,7 +317,7 @@
                 _this.timeFormate(0);
                 _this.timers.t1 = setInterval(function () {
                     let date2 = new Date();
-                    _this.time.runTime = Math.ceil(date2.getTime() / 1000 - initTime);
+                    _this.time.runTime = Math.floor(date2.getTime() / 1000 - initTime);
                     console.log(_this.time.runTime);
                     if (_this.time.runTime >= sec) {
                         _this.time.runTime = sec;
@@ -356,9 +362,8 @@
                 _this.lyBtnshow = false;
                 _this.lyingBtnshow = true;
 
-                _this.timego(_this.time.max);
 
-
+                _this.goRecord();
             },
             lyingBtnAction(){
                 let _this = this;
@@ -368,7 +373,6 @@
 
                 clearInterval(_this.timers.t1)
                 if (_this.time.luyin) {
-                    _this.goRecord();
                     _this.txt2show = false;
                     _this.txt3show = true;
                     _this.time.luyin = false;
@@ -397,7 +401,11 @@
                 _this.resetTxt();
             },
             goRecord(){//录音
-
+                let _this=this;
+                let src="mymedia.mp3"
+                _this.myMedia=new Media();
+                _this.myMedia.startRecord();
+                _this.timego(_this.time.max);
             },
             playRecorder(){//播放录音
 
