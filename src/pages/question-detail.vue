@@ -211,7 +211,7 @@
 </template>
 <script type="text/ecmascript-6">
     import $ from 'jquery'
-
+    import platform from 'platform'
     import Audior from '../../static/wxAudio1.2.2.js'
     import M4u from '../../static/js/m4u.js'
     const url = '../../static/question.json';
@@ -226,9 +226,9 @@
                     t1: '录音最长时间为60秒',
                     t2: '请点击下方录音键开始录音'
                 },
-                lyTxt2:'录音中...轻按下方按钮结束录音',
-                lyTxt3:'发送前，轻按下方按钮试听录音',
-                lyTxt4:'试听中...轻按下方按钮停止播放',
+                lyTxt2: '录音中...轻按下方按钮结束录音',
+                lyTxt3: '发送前，轻按下方按钮试听录音',
+                lyTxt4: '试听中...轻按下方按钮停止播放',
                 m4u: '',
                 txt1show: true,
                 timeshow: false,
@@ -250,7 +250,11 @@
                     runTime: null,
                     luyin: true
                 },
-                myMedia:null
+                myMedia: '',
+                playMedia: '',
+                media: {
+                    src: "mymedia.WAV"
+                }
             }
         },
         props: ["questionId", "done"],
@@ -259,11 +263,6 @@
             let _this = this;
             _this.audior = new Audior(_this.$refs.goaudio, {});
             _this.audior.init();
-
-            document.addEventListener("deviceready", onDeviceReady, false);
-            function onDeviceReady() {
-                window.alert("media is ready now");
-            }
         },
         created(){
             let _this = this;
@@ -275,6 +274,11 @@
                 console.log('error');
             });
 
+            document.addEventListener("deviceready", onDeviceReady, false);
+            function onDeviceReady() {
+                window.alert("media is ready now");
+            }
+
         },
         methods: {
             closeQuestion(){
@@ -282,7 +286,6 @@
                     modalButtonOk: '确认',
                     modalButtonCancel: '取消'
                 });
-                ;
                 let $$ = Dom7;
                 $$(document).on('click', '.close-question', function () {
                     f7.prompt('请填写您的关闭理由', '关闭问题', function (value) {
@@ -307,7 +310,7 @@
                 let _this = this;
                 let m4u = new M4u(this.$refs.luyinModal)
                 m4u.hide();
-                setTimeout(_this.resetTxt, 500)
+                setTimeout(_this.resetTxt, 500);
 
             },
             timego(sec){
@@ -329,10 +332,12 @@
                         clearInterval(_this.timers.t1);
 
                         if (_this.time.luyin) {
+                            _this.myMedia.stopRecord();
                             _this.time.luyin = false;
                             _this.txt2show = false;
                         } else {
                             _this.txt4show = false
+                            _this.playMedia.stopPlayRecorder();
                         }
                         _this.txt3show = true;
                         console.log('clear');
@@ -362,8 +367,7 @@
                 _this.lyBtnshow = false;
                 _this.lyingBtnshow = true;
 
-
-                _this.goRecord();
+                _this.startRecord();
             },
             lyingBtnAction(){
                 let _this = this;
@@ -378,10 +382,12 @@
                     _this.time.luyin = false;
                     _this.time.recordTime = _this.time.runTime;
                     console.log(_this.time.recordTime);
+                    _this.stopRecord();
                 } else {
                     _this.txt3show = true;
                     _this.txt4show = false;
                     _this.txt2show = false;
+                    _this.stopPlayRecorder();
                 }
 
             },
@@ -393,22 +399,56 @@
                 _this.txt3show = false;
                 _this.txt4show = true;
                 _this.timego(_this.time.recordTime);
-                _this.playRecorder();
+                _this.playRecorder(_this.media.src);
 
             },
             reRecordAction(){//重录按钮
-                let _this=this;
+                let _this = this;
                 _this.resetTxt();
+                _this.myMedia='';
+                _this.playMedia='';
             },
-            goRecord(){//录音
-                let _this=this;
-                let src="mymedia.mp3"
-                _this.myMedia=new Media();
-                _this.myMedia.startRecord();
+            startRecord(){//录音
+
+                let _this = this;
+
+                if (typeof Media === "function") {
+                    window.alert('start record')
+                    _this.myMedia = new Media(_this.media.src, function () {
+                        window.alert("media work")
+                    }, function () {
+                        window.alert("media error")
+                    });
+                    _this.myMedia.startRecord();
+                }
                 _this.timego(_this.time.max);
             },
-            playRecorder(){//播放录音
+            stopRecord(){
+                let _this = this;
+                _this.myMedia.stopRecord();
+                _this.myMedia.release();
+            },
+            playRecorder(url){//播放录音
+                let _this = this;
+                if (typeof Media === "function") {
+                    _this.playMedia = new Media(url,
+                            // success callback
+                            function () {
+                                window.alert("playAudio():Audio Success");
+                            },
+                            // error callback
+                            function (err) {
+                                window.alert("playAudio():Audio Error: " + err);
+                            });
 
+                    // Play audio
+                    _this.playMedia.play();
+                }
+            },
+            stopPlayRecorder(){
+                let _this = this;
+                _this.playMedia.stop();
+                _this.playMedia.release();
             },
             resetTxt(){
                 let _this = this;
@@ -432,6 +472,13 @@
                     recordTime: 0,
                     runTime: null,
                     luyin: true
+                }
+
+                if (_this.myMedia != "") {
+                    _this.stopRecord();
+                }
+                if (_this.playMedia != "") {
+                    _this.stopPlayRecorder()
                 }
             }
         },
