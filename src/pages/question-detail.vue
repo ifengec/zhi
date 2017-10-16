@@ -214,7 +214,7 @@
     import platform from 'platform'
     import Audior from '../../static/wxAudio1.2.2.js'
     import M4u from '../../static/js/m4u.js'
-    const url = '../../static/question.json';
+    const url = 'http://5tree.com/data/jsonp/question.js';
 
     export default {
 
@@ -267,8 +267,9 @@
         created(){
             let _this = this;
 
-            _this.$http.get(url, {id: _this.questionId}).then((resp) => {
-                console.log('http.get');
+            _this.$http.jsonp(url, {params:{id: _this.questionId},jsonp:"getQuestion"}).then((resp) => {
+                console.log('http.jsonp'+resp);
+
                 _this.question = resp.body.question;
             }, ()=> {
                 console.log('error');
@@ -276,7 +277,7 @@
 
             document.addEventListener("deviceready", onDeviceReady, false);
             function onDeviceReady() {
-                window.alert("media is ready now");
+                console.log("media is ready now"+device.platform);
             }
 
         },
