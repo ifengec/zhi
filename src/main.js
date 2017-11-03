@@ -34,9 +34,10 @@ import Routes from './routes.js'
 // Import App Component
 import App from './app'
 // Init F7 Vue Plugin
+
 Vue.use(Framework7Vue)
 Vue.use(VueResource)
-
+Vue.http.options.emulateJSON = true;
 
 // Init App
 new Vue({

@@ -214,7 +214,7 @@
     import platform from 'platform'
     import Audior from '../../static/wxAudio1.2.2.js'
     import M4u from '../../static/js/m4u.js'
-    const url = 'http://5tree.com/data/jsonp/question.js';
+    const url = 'http://5tree.com/data/jsonp/jsonp.php';
 
     export default {
 
@@ -267,8 +267,9 @@
         created(){
             let _this = this;
 
-            _this.$http.jsonp(url, {params:{id: _this.questionId},jsonp:"getQuestion"}).then((resp) => {
-                console.log('http.jsonp'+resp);
+            _this.$http.jsonp(url, {params: {id: _this.questionId}},{header:{'Content-Type':'application/x-www-urlencode'},emulateJSON:true}).then((resp) => {
+                console.log('http.jsonp' + resp);
+                console.log(resp);
 
                 _this.question = resp.body.question;
             }, ()=> {
@@ -277,7 +278,7 @@
 
             document.addEventListener("deviceready", onDeviceReady, false);
             function onDeviceReady() {
-                console.log("media is ready now"+device.platform);
+                console.log("media is ready now" + device.platform);
             }
 
         },
@@ -406,8 +407,8 @@
             reRecordAction(){//重录按钮
                 let _this = this;
                 _this.resetTxt();
-                _this.myMedia='';
-                _this.playMedia='';
+                _this.myMedia = '';
+                _this.playMedia = '';
             },
             startRecord(){//录音
 
