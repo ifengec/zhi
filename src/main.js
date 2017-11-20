@@ -45,7 +45,7 @@ new Vue({
   template: '<app/>',
   // Init Framework7 by passing parameters here
   framework7: {
-    root: '#app',
+    root: '#index',
     /* Uncomment to enable Material theme: */
     // material: true,
     routes: Routes,

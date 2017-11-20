@@ -1,6 +1,6 @@
 <template>
     <!-- App -->
-    <div id="app">
+    <div id="index">
         <!-- Main Views -->
         <f7-views>
             <f7-view id="main-view" navbar-through :dynamic-navbar="true" main>
@@ -66,9 +66,9 @@
                     </f7-page>
                 </f7-pages>
                 <f7-toolbar bottom>
-                    <f7-link href="http://www.spotify.com" class="link external">
+                    <f7-link class="link external" @click="$router.load({url: '/'})">
                         <i class="icon icon-spotify"></i>
-                        <p class="color-white">&nbsp;Spotify</p>
+                        <p class="color-red">&nbsp;首页</p>
                     </f7-link>
                     <f7-link href="http://www.idangero.us/framework7" class="link external">
                         <i class="icon icon-f7"></i>
@@ -76,11 +76,13 @@
                 </f7-toolbar>
             </f7-view>
         </f7-views>
+        <v-replay :replayOpened="replayOpened"></v-replay>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
     import questionItem from 'components/questionItem.vue';
+    import replay from 'components/replay.vue';
     const url = '../../static/questionlist.json';
     export default {
         name: 'Index',
@@ -92,7 +94,8 @@
                 myApp: new Framework7(),
                 loading: false,
                 maxItems: 20,
-                itemsPerload: 20
+                itemsPerload: 20,
+                replayOpened:false
             }
         },
         created() {
@@ -161,7 +164,8 @@
             }
         },
         components: {
-            questionItem
+            questionItem,
+            vReplay:replay
         }
     }
 
