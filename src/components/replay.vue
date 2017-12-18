@@ -131,7 +131,6 @@
     export default {
         data () {
             return {
-                openReplay: false,
                 question: '',
                 audior: '',
                 lyTxt1: {
@@ -170,7 +169,7 @@
                 }
             }
         },
-        props:["replayOpened"],
+        props: ["replayOpened"],
         mounted(){
             console.log("done?" + this.done);
             let _this = this;

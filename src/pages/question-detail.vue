@@ -82,10 +82,11 @@
     </f7-page>
 </template>
 <script type="text/ecmascript-6">
-
+    import $ from 'jquery'
+    import Audior from '../../static/wxAudio1.2.2.js'
     import platform from 'platform'
     const url = 'http://5tree.com/data/jsonp/jsonp.php';
-
+    import bus from '../../src/bus.js'
     export default {
 
         data(){
@@ -95,6 +96,13 @@
             }
         },
         props: ["questionId", "done"],
+        mounted(){
+            console.log("done?" + this.done);
+            let _this = this;
+            _this.audior = new Audior(_this.$refs.goaudio, {});
+            _this.audior.init();
+            console.log()
+        },
         created(){
             let _this = this;
 
@@ -106,6 +114,7 @@
                 console.log(resp);
 
                 _this.question = resp.body.question;
+                _this.$root.question = resp.body.question;
             }, ()=> {
                 console.log('error');
             });
@@ -126,20 +135,22 @@
                                 f7.alert('问题已关闭!', '关闭问题');
                             });
                         }
-
                     });
                 });
-
             },
             openReplay () {
                 var self = this;
-                self.$root.replayOpened = true;
+
+                bus.$emit('on-bus',self.question);
+                console.log('click');
             }
+        },
+        beforeDestroy(){
+            let _this = this;
+            _this.audior.clearTime();
         }
     };
 </script>
 
 <style lang="scss">
-    @import "../css/animate.css";
-
 </style>
