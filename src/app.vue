@@ -120,7 +120,7 @@
                             </div>
                         </div>
                         <div class="close-hd-box text-center">
-                            <a class="close-popup icon-shell" @click="closeYuyin"><i
+                            <a class="close-popup icon-shell" @click="closeYuyinAll"><i
                                     class="icon-close-x"></i></a>
                         </div>
                         <div class="m4u m4u-all m4u-ly" ref="luyinModal">
@@ -311,7 +311,7 @@
             },
             showYuyin(){
                 let _this = this;
-                //_this.resetTxt();
+                _this.resetTxt();
                 let m4u = new M4u(this.$refs.luyinModal)
                 m4u.show();
             },
@@ -321,6 +321,15 @@
                 m4u.hide();
                 setTimeout(_this.resetTxt, 1);
 
+            },
+            closeYuyinAll(){
+                let _this = this;
+                let m4u = new M4u(this.$refs.luyinModal)
+                m4u.hide();
+                setTimeout(function(){
+                    _this.replayOpened = false;
+                    _this.resetTxt();
+                }, 1);
             },
             timego(sec){
                 let _this = this;
@@ -481,7 +490,7 @@
                 _this.playBtnshow = false;
                 _this.subBtnshow = false;
                 _this.isRecording = false;
-                _this.replayOpened = false;
+
                 _this.timers = {
                     t1: null
                 };
@@ -500,6 +509,9 @@
                 if (_this.playMedia != "") {
                     _this.stopPlayRecorder()
                 }
+            },
+            resetReplay(){
+                _this.replayOpened = false;
             },
             backgo(){
                 window.history.go(-1);
