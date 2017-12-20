@@ -419,6 +419,7 @@
                 _this.playBtnshow = false;
                 _this.lyingBtnshow = true;
                 _this.subBtnshow = false;
+                _this.txt2show = false;
                 _this.txt3show = false;
                 _this.txt4show = true;
                 _this.timego(_this.time.recordTime);

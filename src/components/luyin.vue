@@ -9,18 +9,18 @@
             <div class="m4u-body">
                 <div class="m4u-txt-box text-center">
                     <div class="ly-txt1">
-                        <p>{{lyTxt1.t1}}</p>
-                        <p>{{lyTxt1.t2}}</p>
+                        <p>{{lyTxt1.t11}}</p>
+                        <p>{{lyTxt1.t12}}</p>
                     </div>
                     <div class="timeBox"><span class="minute">0</span>:<span class="second">00</span></div>
                     <div class="ly-txt2">
-                        <p>录音中...轻按下方按钮结束录音</p>
+                        <p>{{lyTxt1.t2}}</p>
                     </div>
                     <div class="ly-txt3">
-                        <p>发送前，轻按下方按钮试听录音</p>
+                        <p>{{lyTxt1.t3}}</p>
                     </div>
                     <div class="ly-txt4">
-                        <p>试听中...轻按下方按钮停止播放</p>
+                        <p>{{lyTxt1.t4}}</p>
                     </div>
                 </div>
                 <div class="btn-luyin-box text-center clearfix">
@@ -43,8 +43,11 @@
         data(){
             return{
                 lyTxt1:{
-                    t1:'录音最长时间为60秒',
-                    t2:'请点击下方录音键开始录音'
+                    t11:'录音最长时间为60秒',
+                    t12:'请点击下方录音键开始录音',
+                    t2:'录音中...轻按下方按钮结束录音',
+                    t3:'发送前，轻按下方按钮试听录音',
+                    t4:'试听中...轻按下方按钮停止播放'
                 }
             }
         }

@@ -1,7 +1,7 @@
 <template>
     <div id="user">
         <f7-page>
-            <f7-navbar title="User" back-link="Back" sliding></f7-navbar>
+            <f7-navbar title="User" back-link="返回" sliding></f7-navbar>
             <f7-block-title>超过72小时未回答，按照原路径全额退款。</f7-block-title>
             <f7-block inner v-if="user">
                 <p>{{user.name}}</p>
